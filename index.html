@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="stylesheet.css" />
+  <title>Mejores Prácticas de Trabajo Remoto</title>
+
+</head>
+
+<body>
+	<div class="video">
+	<video controls autoplay width="640" height="480">
+		<source src="Módulo 4_Remote Work Best Practices.mp4" type="video/mp4" />
+	</video>
+</div>
+    <div class="preguntasportema"> 
+<fieldset>
+	<legend>Mejores Prácticas de Trabajo Remoto</legend>
+	<div id="test">
+		<div class="cuestion">1. “Valorar distintos escenarios y configurar el dispositivo antes de comenzar con el teletrabajo”. El enunciado anterior corresponde a la pr&aacute;ctica denominada:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="0" value="a">&nbsp;a : Uso de dispositivos corporativos.&nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="b">&nbsp;b : Entorno de trabajo seguro.&nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="c">&nbsp;c : Periodo de implantaci&oacute;n y pruebas.&nbsp;</label>
+		</div>
+		<div class="cuestion">2. “Esta medida incluye la formaci&oacute;n de quienes trabajan en la empresa para que puedan seguirla de manera adecuada”. El enunciado anterior corresponde a la pr&aacute;ctica denominada:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="1" value="a">&nbsp;a : Elaborar una pol&iacute;ítica de teletrabajo.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="b">&nbsp;b : Conexi&oacute;n a internet protegida.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="c">&nbsp;c : Datos m&oacute;viles como plan B.&nbsp;</label>
+		</div>
+		<div class="cuestion">3. “Respetar las pol&iacute;ticas de protecci&oacute;n del puesto de trabajo en cualquier lugar.”. El enunciado anterior corresponde a la pr&aacute;ctica denominada:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="2" value="a">&nbsp;a : Conexi&oacute;n a internet protegida.&nbsp;</label>
+			<label>
+				<input type="radio" name="2" value="b">&nbsp;b : Entorno de trabajo seguro.&nbsp;</label>
+			<label>
+				<input type="radio" name="2" value="c">&nbsp;c : Uso de dispositivos corporativos.&nbsp;</label>
+		</div>
+	</div>
+	<button id="boton">Mostrar resultado</button>
+	<div id="resultado">
+		<br>
+	</div>
+	<script>
+		const contenedor = document.getElementById("test");
+		const botonRes = document.getElementById("boton");
+		const resultadoTest = document.getElementById("resultado");
+
+		const preguntas = [
+			{
+				pregunta: "1. “Valorar distintos escenarios y configurar el dispositivo antes de comenzar con el teletrabajo”. El enunciado anterior corresponde a la práctica denominada:",
+				respuestas:
+				{
+					a: "Uso de dispositivos corporativos.",
+					b: "Entorno de trabajo seguro.",
+					c: "Periodo de implantación y pruebas.",
+				},
+				respuestaCorrecta: "c",
+			},
+			{
+				pregunta: "2. “Esta medida incluye la formación de quienes trabajan en la empresa para que puedan seguirla de manera adecuada”. El enunciado anterior corresponde a la práctica denominada:",
+				respuestas:
+				{
+					a: "Elaborar una política de teletrabajo.",
+					b: "Conexión a internet protegida.",
+					c: "Datos móviles como plan B.",
+				},
+				respuestaCorrecta: "a",
+			},
+			{
+				pregunta: "3. “Respetar las políticas de protección del puesto de trabajo en cualquier lugar.”. El enunciado anterior corresponde a la práctica denominada:",
+				respuestas:
+				{
+					a: "Conexión a internet protegida.",
+					b: "Entorno de trabajo seguro.",
+					c: "Uso de dispositivos corporativos.",
+				},
+				respuestaCorrecta: "b",
+			},
+
+		];
+
+		function mostrarTest()
+		{
+			const preguntasYrespuestas = [];
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+
+				const respuestas = [];
+
+				for (letraRespuesta in preguntaActual.respuestas)
+				{
+
+					respuestas.push(
+
+						`
+        <label>
+                  <input type="radio" name="${numeroDePregunta}" value="${letraRespuesta}" />
+                  ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta]} <br>
+              </label>` 
+					);
+                   
+				}
+
+				preguntasYrespuestas.push(
+					`
+      <div class="cuestion">${preguntaActual.pregunta}</div>
+      
+          <div class="respuestas"> ${respuestas.join("")} </div>
+          `
+				);
+			});
+
+			contenedor.innerHTML = preguntasYrespuestas.join("");
+		}
+
+		mostrarTest();
+
+		function mostrarResultado()
+		{
+			const respuestas = contenedor.querySelectorAll(".respuestas");
+			let respuestasCorrectas = 0;
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+				const todasLasRespuestas = respuestas[numeroDePregunta];
+				const checkboxRespuestas = `input[name='${numeroDePregunta}']:checked`;
+				const respuestaElegida = (
+					todasLasRespuestas.querySelector(checkboxRespuestas) ||
+					{}
+				).value;
+
+				if (respuestaElegida === preguntaActual.respuestaCorrecta)
+				{
+					respuestasCorrectas++;
+
+					respuestas[numeroDePregunta].style.color = "blue";
+				}
+				else
+				{
+					respuestas[numeroDePregunta].style.color = "red";
+				}
+			});
+
+			resultadoTest.innerHTML =
+				"Usted ha acertado " +
+				respuestasCorrectas +
+				" preguntas de un total de " +
+				preguntas.length;
+		}
+
+		botonRes.addEventListener("click", mostrarResultado);
+
+	</script>
+       </div>
+
+</fieldset>
+</body>
+</html>
